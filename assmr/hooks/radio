@@ -1,0 +1,295 @@
+import ImagePicker from 'react-native-image-crop-picker';
+
+Call single image picker with cropping
+
+ImagePicker.openPicker({
+  width: 300,
+  height: 400,
+  cropping: true
+}).then(image => {
+  console.log(image);
+});
+
+Call multiple image picker
+
+ImagePicker.openPicker({
+  multiple: true
+}).then(images => {
+  console.log(images);
+});
+
+Call multiple image picker
+
+ImagePicker.openPicker({
+  multiple: true
+}).then(images => {
+  console.log(images);
+});
+
+OPEN CAMERA
+
+ImagePicker.openCamera({
+  width: 300,
+  height: 400,
+  cropping: true,
+}).then(image => {
+  console.log(image);
+});
+
+Video
+ImagePicker.openCamera({
+  mediaType: 'video',
+}).then(image => {
+  console.log(image);
+});
+
+Crop picture
+ImagePicker.openCropper({
+  path: 'my-file-path.jpg',
+  width: 300,
+  height: 400
+}).then(image => {
+  console.log(image);
+});
+
+Optional cleanup
+Module is creating tmp images which are going to be cleaned up automatically somewhere in the future. If you want to force cleanup, you can use clean to clean all tmp files, or cleanSingle(path) to clean single tmp file.
+
+ImagePicker.clean().then(() => {
+  console.log('removed all tmp images from tmp directory');
+}).catch(e => {
+  alert(e);
+});
+
+Request Object
+
+Property	Type	Description
+cropping	bool (default false)	Enable or disable cropping
+width	number	Width of result image when used with cropping option
+height	number	Height of result image when used with cropping option
+multiple	bool (default false)	Enable or disable multiple image selection
+writeTempFile (ios only)	bool (default true)	When set to false, does not write temporary files for the selected images. This is useful to improve performance when you are retrieving file contents with the includeBase64 option and don't need to read files from disk.
+includeBase64	bool (default false)	When set to true, the image file content will be available as a base64-encoded string in the data property. Hint: To use this string as an image source, use it like: <Image source={{uri: `data:${image.mime};base64,${image.data}`}} />
+includeExif	bool (default false)	Include image exif data in the response
+avoidEmptySpaceAroundImage (ios only)	bool (default true)	When set to true, the image will always fill the mask space.
+cropperActiveWidgetColor (android only)	string (default "#424242")	When cropping image, determines ActiveWidget color.
+cropperStatusBarColor (android only)	string (default #424242)	When cropping image, determines the color of StatusBar.
+cropperToolbarColor (android only)	string (default #424242)	When cropping image, determines the color of Toolbar.
+cropperToolbarWidgetColor (android only)	string (default darker orange)	When cropping image, determines the color of Toolbar text and buttons.
+freeStyleCropEnabled	bool (default false)	Enables user to apply custom rectangle area for cropping
+cropperToolbarTitle	string (default Edit Photo)	When cropping image, determines the title of Toolbar.
+cropperCircleOverlay	bool (default false)	Enable or disable circular cropping mask.
+disableCropperColorSetters (android only)	bool (default false)	When cropping image, disables the color setters for cropping library.
+minFiles (ios only)	number (default 1)	Min number of files to select when using multiple option
+maxFiles (ios only)	number (default 5)	Max number of files to select when using multiple option
+waitAnimationEnd (ios only)	bool (default true)	Promise will resolve/reject once ViewController completion block is called
+smartAlbums (ios only)	array (supported values) (default ['UserLibrary', 'PhotoStream', 'Panoramas', 'Videos', 'Bursts'])	List of smart albums to choose from
+useFrontCamera	bool (default false)	Whether to default to the front/'selfie' camera when opened. Please note that not all Android devices handle this parameter, see issue #1058
+compressVideoPreset (ios only)	string (default MediumQuality)	Choose which preset will be used for video compression
+compressImageMaxWidth	number (default none)	Compress image with maximum width
+compressImageMaxHeight	number (default none)	Compress image with maximum height
+compressImageQuality	number (default 1 (Android)/0.8 (iOS))	Compress image with quality (from 0 to 1, where 1 is best quality). On iOS, values larger than 0.8 don't produce a noticeable quality increase in most images, while a value of 0.8 will reduce the file size by about half or less compared to a value of 1.
+loadingLabelText (ios only)	string (default "Processing assets...")	Text displayed while photo is loading in picker
+mediaType	string (default any)	Accepted mediaType for image selection, can be one of: 'photo', 'video', or 'any'
+showsSelectedCount (ios only)	bool (default true)	Whether to show the number of selected assets
+sortOrder (ios only)	string (default 'none', supported values: 'asc', 'desc', 'none')	Applies a sort order on the creation date on how media is displayed within the albums/detail photo views when opening the image picker
+forceJpg (ios only)	bool (default false)	Whether to convert photos to JPG. This will also convert any Live Photo into its JPG representation
+showCropGuidelines (android only)	bool (default true)	Whether to show the 3x3 grid on top of the image during cropping
+showCropFrame (android only)	bool (default true)	Whether to show crop frame during cropping
+hideBottomControls (android only)	bool (default false)	Whether to display bottom controls
+enableRotationGesture (android only)	bool (default false)	Whether to enable rotating the image by hand gesture
+cropperChooseText (ios only) 	          string (default choose)        	Choose button text
+cropperCancelText (ios only)	string (default Cancel)	Cancel button text
+
+
+Response Object
+
+Property	Type	Description
+path	string	Selected image location. This is null when the writeTempFile option is set to false.
+localIdentifier(ios only)	string	Selected images' localidentifier, used for PHAsset searching
+sourceURL(ios only)	string	Selected images' source path, do not have write access
+filename(ios only)	string	Selected images' filename
+width	number	Selected image width
+height	number	Selected image height
+mime	string	Selected image MIME type (image/jpeg, image/png)
+size	number	Selected image size in bytes
+duration	number	Video duration time in milliseconds
+data	base64	Optional base64 selected file representation
+exif	object	Extracted exif data from image. Response format is platform specific
+cropRect	object	Cropped image rectangle (width, height, x, y)
+creationDate (ios only)	string	UNIX timestamp when image was created
+modificationDate	string	UNIX timestamp when image was last modified
+
+let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.launchCamera(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        alert(response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        console.log('response', JSON.stringify(response));
+        this.setState({
+          filePath: response,
+          fileData: response.data,
+          fileUri: response.uri
+        });
+      }
+    });
+===========================================
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.launchImageLibrary(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        alert(response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        console.log('response', JSON.stringify(response));
+        this.setState({
+          filePath: response,
+          fileData: response.data,
+          fileUri: response.uri
+        });
+      }
+    });
+
+    import PushNotificationIOS from "@react-native-community/push-notification-ios";
+    import PushNotification from "react-native-push-notification";
+    
+    // Must be outside of any component LifeCycle (such as `componentDidMount`).
+    PushNotification.configure({
+      // (optional) Called when Token is generated (iOS and Android)
+      onRegister: function (token) {
+        console.log("TOKEN:", token);
+      },
+    
+      // (required) Called when a remote is received or opened, or local notification is opened
+      onNotification: function (notification) {
+        console.log("NOTIFICATION:", notification);
+    
+        // process the notification
+    
+        // (required) Called when a remote is received or opened, or local notification is opened
+        notification.finish(PushNotificationIOS.FetchResult.NoData);
+      },
+    
+      // (optional) Called when Registered Action is pressed and invokeApp is false, if true onNotification will be called (Android)
+      onAction: function (notification) {
+        console.log("ACTION:", notification.action);
+        console.log("NOTIFICATION:", notification);
+    
+        // process the action
+      },
+    
+      // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
+      onRegistrationError: function(err) {
+        console.error(err.message, err);
+      },
+    
+      // IOS ONLY (optional): default: all - Permissions to register.
+      permissions: {
+        alert: true,
+        badge: true,
+        sound: true,
+      },
+    
+      // Should the initial notification be popped automatically
+      // default: true
+      popInitialNotification: true,
+    
+      /**
+       * (optional) default: true
+       * - Specified if permissions (ios) and token (android and ios) will requested or not,
+       * - if not, you must call PushNotificationsHandler.requestPermissions() later
+       * - if you are not using remote notification or do not have Firebase installed, use this:
+       *     requestPermissions: Platform.OS === 'ios'
+       */
+      requestPermissions: true,
+    });
+    
+    PushNotification.createChannel(
+      {
+        channelId: "com.assmr", // (required)
+        channelName: "com.assmr", // (required)
+        channelDescription: "A channel to categorise your notifications", // (optional) default: undefined.
+        playSound: false, // (optional) default: true
+        soundName: "default", // (optional) See `soundName` parameter of `localNotification` function
+        importance: 4, // (optional) default: 4. Int value of the Android notification importance
+        vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
+      },
+      (created) =>{ 
+          console.log(`createChannel returned '${created}'`)
+      } // (optional) callback returns whether the channel was created, false means it already existed.
+    );
+  PushNotification.localNotification({
+      /* Android Only Properties */
+      channelId: "com.assumr", // (required) channelId, if the channel doesn't exist, notification will not trigger.
+      ticker: "My Notification Ticker", // (optional)
+      showWhen: true, // (optional) default: true
+      autoCancel: true, // (optional) default: true
+      largeIcon: "ic_launcher", // (optional) default: "ic_launcher". Use "" for no large icon.
+      largeIconUrl: "https://www.example.tld/picture.jpg", // (optional) default: undefined
+      smallIcon: "ic_notification", // (optional) default: "ic_notification" with fallback for "ic_launcher". Use "" for default small icon.
+      bigText: "My big text that will be shown when notification is expanded. Styling can be done using HTML tags(see android docs for details)", // (optional) default: "message" prop
+      subText: "This is a subText", // (optional) default: none
+      bigPictureUrl: "https://www.example.tld/picture.jpg", // (optional) default: undefined
+      bigLargeIcon: "ic_launcher", // (optional) default: undefined
+      bigLargeIconUrl: "https://www.example.tld/bigicon.jpg", // (optional) default: undefined
+      color: "red", // (optional) default: system default
+      vibrate: true, // (optional) default: true
+      vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
+      tag: "some_tag", // (optional) add tag to message
+      group: "group", // (optional) add group to message
+      groupSummary: false, // (optional) set this notification to be the group summary for a group of notifications, default: false
+      ongoing: false, // (optional) set whether this is an "ongoing" notification
+      priority: "high", // (optional) set notification priority, default: high
+      visibility: "private", // (optional) set notification visibility, default: private
+      ignoreInForeground: false, // (optional) if true, the notification will not be visible when the app is in the foreground (useful for parity with how iOS notifications appear). should be used in combine with `com.dieam.reactnativepushnotification.notification_foreground` setting
+      shortcutId: "shortcut-id", // (optional) If this notification is duplicative of a Launcher shortcut, sets the id of the shortcut, in case the Launcher wants to hide the shortcut, default undefined
+      onlyAlertOnce: false, // (optional) alert will open only once with sound and notify, default: false
+      
+      when: null, // (optional) Add a timestamp (Unix timestamp value in milliseconds) pertaining to the notification (usually the time the event occurred). For apps targeting Build.VERSION_CODES.N and above, this time is not shown anymore by default and must be opted into by using `showWhen`, default: null.
+      usesChronometer: false, // (optional) Show the `when` field as a stopwatch. Instead of presenting `when` as a timestamp, the notification will show an automatically updating display of the minutes and seconds since when. Useful when showing an elapsed time (like an ongoing phone call), default: false.
+      timeoutAfter: null, // (optional) Specifies a duration in milliseconds after which this notification should be canceled, if it is not already canceled, default: null
+    
+      messageId: "google:message_id", // (optional) added as `message_id` to intent extras so opening push notification can find data stored by @react-native-firebase/messaging module. 
+    
+      actions: ["Yes", "No"], // (Android only) See the doc for notification actions to know more
+      invokeApp: true, // (optional) This enable click on actions to bring back the application to foreground or stay in background, default: true
+    
+      /* iOS only properties */
+      category: "", // (optional) default: empty string
+      subtitle: "My Notification Subtitle", // (optional) smaller title below notification title
+    
+      /* iOS and Android properties */
+      id: 0, // (optional) Valid unique 32 bit integer specified as string. default: Autogenerated Unique ID
+      title: "My Notification Title", // (optional)
+      message: "My Notification Message", // (required)
+      picture: "https://www.example.tld/picture.jpg", // (optional) Display an picture with the notification, alias of `bigPictureUrl` for Android. default: undefined
+      userInfo: {}, // (optional) default: {} (using null throws a JSON value '<null>' error)
+      playSound: false, // (optional) default: true
+      soundName: "default", // (optional) Sound to play when the notification is shown. Value of 'default' plays the default sound. It can be set to a custom sound such as 'android.resource://com.xyz/raw/my_sound'. It will look for the 'my_sound' audio file in 'res/raw' directory and play it. default: 'default' (default sound is played)
+      number: 10, // (optional) Valid 32 bit integer specified as string. default: none (Cannot be zero)
+      repeatType: "day", // (optional) Repeating interval. Check 'Repeating Notifications' section for more info.
+    });
