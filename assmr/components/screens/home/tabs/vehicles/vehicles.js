@@ -1,12 +1,14 @@
 import * as React from 'react'
 import { View, Text, TextInput, StyleSheet, Image, AsyncStorage, FlatList, TouchableOpacity,
-    Modal,  Button, ScrollView, TouchableWithoutFeedback, Alert } from 'react-native'
+    Modal,  Button, ScrollView, TouchableWithoutFeedback, Alert,
+    ImageBackground } from 'react-native'
 import { Badge } from 'react-native-elements'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { Context } from '../../../../../hooks/context'
 import axios from 'axios'
 import { SliderBox } from 'react-native-image-slider-box'
+import { IMAGES} from '../../../../../assets/assets'
 
 const Vehicles = ()=>{
     const userCredentials = React.useContext(Context)//pass to axios
@@ -130,6 +132,8 @@ const Vehicles = ()=>{
                 data={vehicles}
                 keyExtractor={(item)=> item.propertyid}
                 renderItem={({item})=>
+                    <ImageBackground source={IMAGES.assmer_logo}
+                        style={{width: "100%", height: "100%", opacity: 0.9}}>
                     <View key={item.propertyid} style={[styles.card, 
                         {backgroundColor: "#ff8c00", opacity: 0.9}]}>
                         <View style={styles.cardIMG}>
@@ -162,6 +166,7 @@ const Vehicles = ()=>{
                             </TouchableOpacity>
                         </View>
                     </View>
+                    </ImageBackground>
                 } />
                 {
                     (openModal &&
@@ -203,6 +208,8 @@ const Vehicles = ()=>{
                 {
                     (assumerModal && 
                         <Modal visible={assumerModal} animationType="slide">
+                            <ImageBackground source={IMAGES.assmer_logo}
+                                style={{width: "100%", height: "100%", opacity: 0.9}}>
                             <View>
                                 <TouchableWithoutFeedback>
                                     <ScrollView>
@@ -324,6 +331,7 @@ const Vehicles = ()=>{
                                     </ScrollView>
                                 </TouchableWithoutFeedback>
                             </View>
+                            </ImageBackground>
                         </Modal>
                     )
                 }
@@ -374,8 +382,9 @@ const styles = StyleSheet.create({
         marginVertical: 3
     },
     textinputAssume: {
-        backgroundColor: "#dcdcdc",
-        borderBottomWidth: 1
+        backgroundColor: "#fff",
+        borderBottomWidth: 1,
+        borderRadius: 3
     },
     textError: {
         marginHorizontal: 20,

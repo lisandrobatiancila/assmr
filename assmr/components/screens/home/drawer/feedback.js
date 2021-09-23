@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { View, Image, Text, StyleSheet, TextInput, 
     Keyboard, TouchableWithoutFeedback, AsyncStorage,
-    ScrollView, TouchableOpacity, FlatList, Alert, Button } from 'react-native'
+    ScrollView, TouchableOpacity, FlatList, Alert, Button,
+    ImageBackground } from 'react-native'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button'
 import axios from 'axios'
 import { Formik } from 'formik'
@@ -188,6 +189,8 @@ const FeedBack = (props)=>{
             }
             {
                 (closeFeedBackForm &&
+                    <ImageBackground source={IMAGES.assmer_logo}
+                        style={{width: "100%", height: "100%", opacity: 0.9}}>
                     <View style={{height: "100%"}}>
                         <FlatList data={postedFeedBack}
                             keyExtractor={(item)=> item.feedbackid}
@@ -229,7 +232,8 @@ const FeedBack = (props)=>{
                                 style={{width: 20, height: 20, alignSelf: "center"}} />
                         </View>
                     </TouchableOpacity>
-                    </View>    
+                    </View>
+                    </ImageBackground>
                 )
             }
             </View>

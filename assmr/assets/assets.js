@@ -30,5 +30,6 @@ export const IMAGES = {
     left_arr: require('./images/left-arr.png'),
     send_arrow: require('./images/send-arrow.png'),
     eye: require('./images/eye.png'),
-    refresh: require('./images/refresh.png')
+    refresh: require('./images/refresh.png'),
+    assmer_logo: require('./images/assumer_logo.jpg'),
 }

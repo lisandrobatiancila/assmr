@@ -1,10 +1,12 @@
 import * as React from 'react'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity,
     TouchableWithoutFeedback, Keyboard, Alert, Modal, AsyncStorage,
-    LogBox, ScrollView} from 'react-native'
+    LogBox, ScrollView, ImageBackground } from 'react-native'
 import { Link } from 'react-router-native'
 import axios from 'axios'
 import { Formik } from 'formik'
+import { IMAGES } from '../../../assets/assets'
+import { padding } from 'styled-system'
 
 LogBox.ignoreAllLogs(true)
 const Login = (props)=>{
@@ -33,6 +35,8 @@ const Login = (props)=>{
                 <Modal visible={props.openModal}
                     animationType="slide"
                     style={{backgroundColor: "#ccc"}}>
+                    <ImageBackground source={IMAGES.assmer_logo} 
+                        style={{width: "100%", height: "100%"}}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={{padding: 10, alignContent: "center", 
                             justifyContent: "center", flex: 1,
@@ -57,6 +61,7 @@ const Login = (props)=>{
                             </TouchableOpacity>
                         </View>
                     </TouchableWithoutFeedback>
+                    </ImageBackground>
                 </Modal>
                 :
                 (<Formik initialValues={{username: "", password: ""}}
@@ -94,34 +99,37 @@ const Login = (props)=>{
                     }}>
                     {
                         (props)=>(
-                            <ScrollView style={{backgroundColor: "#ff8c00",height: "100%"}}>
-                            <View style={{flex:1, flexDirection: "column", padding: 10,
-                                backgroundColor: "#ff8c00"}}>
+                            <ImageBackground source={IMAGES.assmer_logo}
+                                style={{width: "100%", height: "100%"}}>
+                            <ScrollView style={{backgroundColor: "#ff8c00", opacity: 0.9, height: "100%"}}>
+                            <View style={{flexDirection: "column",
+                                backgroundColor: "#ff8c00", height: "100%"}}>
                             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                                <View style={styles.container}>
-                                <Text style={styles.textHeader}>
-                                    assumr account
-                                </Text>
-                                <View style={styles.form_container}>
-                                    <Text style={styles.text}>username</Text>
-                                    <TextInput style={styles.textinput} keyboardType="email-address"
-                                        placeholder="Username" value={ props.values.username } 
-                                        onChangeText={props.handleChange('username')} />
-                                    <Text style={styles.text}>password</Text>
-                                    <TextInput style={styles.textinput} placeholder="********"
-                                        secureTextEntry={true} value={ props.values.password } 
-                                        onChangeText={props.handleChange('password')} />
-                                    <Button  title="login" onPress={props.handleSubmit} />
-                                    <TouchableWithoutFeedback>
-                                        <Link to="/signup">
-                                            <Text style={styles.textSignup}>Don't have an account?</Text>
-                                        </Link>
-                                    </TouchableWithoutFeedback>
+                                <View style={[styles.container, {padding: 10}]}>
+                                    <Text style={styles.textHeader}>
+                                        assumr account
+                                    </Text>
+                                    <View style={styles.form_container}>
+                                        <Text style={styles.text}>username</Text>
+                                        <TextInput style={styles.textinput} keyboardType="email-address"
+                                            placeholder="Username" value={ props.values.username } 
+                                            onChangeText={props.handleChange('username')} />
+                                        <Text style={styles.text}>password</Text>
+                                        <TextInput style={styles.textinput} placeholder="********"
+                                            secureTextEntry={true} value={ props.values.password } 
+                                            onChangeText={props.handleChange('password')} />
+                                        <Button  title="login" onPress={props.handleSubmit} />
+                                        <TouchableWithoutFeedback>
+                                            <Link to="/signup">
+                                                <Text style={styles.textSignup}>Don't have an account?</Text>
+                                            </Link>
+                                        </TouchableWithoutFeedback>
+                                    </View>
                                 </View>
-                            </View>
                             </TouchableWithoutFeedback>
                             </View>
                             </ScrollView>
+                            </ImageBackground>
                         )
                     }
                 </Formik>)

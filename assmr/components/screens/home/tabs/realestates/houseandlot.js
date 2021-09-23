@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { View, Text, TextInput, Image, AsyncStorage, FlatList, StyleSheet, 
     TouchableOpacity, Modal, TouchableWithoutFeedback, Button, ScrollView, 
-    Alert } from 'react-native'
+    Alert, ImageBackground } from 'react-native'
 import { Badge } from 'react-native-elements'
 import { SliderBox } from 'react-native-image-slider-box'
 import { Formik } from 'formik'
@@ -132,6 +132,8 @@ const HouseAndLot = (props)=>{
             <FlatList data={halImages}
                 keyExtractor={(item)=> item.propertyid}
                 renderItem={({item})=>
+                    <ImageBackground source={IMAGES.assmer_logo}
+                        style={{width: "100%", height: "100%"}}>
                     <View key={item.propertyid} style={[styles.card, 
                         {backgroundColor: "#ff8c00", opacity: 0.9}]}>
                         <View style={styles.cardHead}>
@@ -158,6 +160,7 @@ const HouseAndLot = (props)=>{
                                 textAlign: "center", color: "#fff", fontSize: 16}}>view property</Text>
                         </TouchableOpacity>
                     </View>
+                    </ImageBackground>
                 } />
             </View>
             {
@@ -196,6 +199,8 @@ const HouseAndLot = (props)=>{
             {
                     (assumerModal && 
                         <Modal visible={assumerModal} animationType="slide">
+                            <ImageBackground source={IMAGES.assmer_logo}
+                                style={{width: "100%", height: "100%", opacity: 0.9}}>
                             <View>
                                 <TouchableWithoutFeedback>
                                     <ScrollView>
@@ -314,6 +319,7 @@ const HouseAndLot = (props)=>{
                                     </ScrollView>
                                 </TouchableWithoutFeedback>
                             </View>
+                            </ImageBackground>
                         </Modal>
                     )
                 }
@@ -367,8 +373,9 @@ const styles = StyleSheet.create({
         marginVertical: 3
     },
     textinputAssume: {
-        backgroundColor: "#dcdcdc",
-        borderBottomWidth: 1
+        backgroundColor: "#fff",
+        borderBottomWidth: 1,
+        borderRadius: 3,
     },
     textError: {
         marginHorizontal: 20,

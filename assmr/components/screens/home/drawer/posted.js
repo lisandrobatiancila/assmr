@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { View, Text, FlatList, Image, StyleSheet, 
     TouchableOpacity, AsyncStorage,
-    Picker, Modal, Alert, TextInput, ScrollView, TouchableWithoutFeedback, Button } from 'react-native'
+    Picker, Modal, Alert, TextInput, ScrollView, TouchableWithoutFeedback, Button,
+    ImageBackground } from 'react-native'
 import axios from 'axios'
 import { Formik } from 'formik'
 import * as yup from 'yup'
@@ -113,10 +114,12 @@ const AddVehicleView = ({ userid })=>{
                         }}>
                         {
                             (props)=>
+                            <ImageBackground source={IMAGES.assmer_logo}
+                                style={{width: "100%", height: "100%"}}>
                             <View style={{flex: 1, flexDirection: "column",
-                                backgroundColor: "#ff8c00", padding: 5}}>
+                                backgroundColor: "#ff8c00", padding: 5, opacity: 0.9}}>
                                 <View style={{flexDirection: "row"}}>
-                                    <Text style={[styles.textCapitalize, styles.textMV]}>owner</Text>
+                                    <Text style={[styles.textCapitalize, styles.textMV]}>owner vv</Text>
                                     <Text style={[styles.textError, {marginHorizontal: 20, marginTop: 5}]}>{props.touched.owner && props.errors.owner}</Text>
                                 </View>
                                 <TextInput value={props.values.owner} placeholder="owner"
@@ -218,6 +221,7 @@ const AddVehicleView = ({ userid })=>{
                                     
                                 </View>
                             </View>
+                            </ImageBackground>
                         }
                     </Formik>
                 </View>
@@ -320,7 +324,9 @@ const House = ({ userid })=>{
                 }}>
                 {
                     (props)=>
-                    <View>
+                    <ImageBackground source={IMAGES.assmer_logo}
+                        style={{width: "100%", height: "100%"}}>
+                    <View style={{backgroundColor: "#ff8c00", opacity: 0.9, padding: 5}}>
                         <View>
                             <View style={{flexDirection: "row"}}>
                                 <Text style={[styles.textCapitalize, styles.textMV]}>owner</Text>
@@ -432,6 +438,7 @@ const House = ({ userid })=>{
 
                         </View>
                     </View>
+                    </ImageBackground>
                 }
             </Formik>
         </ScrollView>
@@ -535,7 +542,9 @@ const Lot = ({ userid })=>{
                 }}>
                 {
                     (props)=>
-                    <View>
+                    <ImageBackground source={IMAGES.assmer_logo}
+                        style={{width: "100%", height: "100%"}}>
+                    <View style={{backgroundColor: "#ff8c00", padding: 5, opacity: 0.9}}>
                         <View>
                             <View style={{flexDirection: "row"}}>
                                 <Text style={[styles.textCapitalize, styles.textMV]}>owner</Text>
@@ -626,6 +635,7 @@ const Lot = ({ userid })=>{
 
                         </View>
                     </View>
+                    </ImageBackground>
                 }
             </Formik>
         </ScrollView>
@@ -726,7 +736,9 @@ const HouseAndLot = ({ userid })=>{
                 }}>
                 {
                     (props)=>
-                    <View>
+                    <ImageBackground source={IMAGES.assmer_logo}
+                        style={{width: "100%", height: "100%"}}>
+                    <View style={{backgroundColor: "#ff8c00", padding: 5, opacity: 0.9}}>
                         <View>
                             <View style={{flexDirection: "row"}}>
                                 <Text style={[styles.textCapitalize, styles.textMV]}>owner</Text>
@@ -825,6 +837,7 @@ const HouseAndLot = ({ userid })=>{
 
                         </View>
                     </View>
+                    </ImageBackground>
                 }
             </Formik>
         </ScrollView>
@@ -985,7 +998,9 @@ const AddJewelry = ({ userid })=>{
                     }}>
                     {
                         (props)=>
-                        <View style={{backgroundColor: "#ff8c00", padding: 5}}>
+                        <ImageBackground source={IMAGES.assmer_logo}
+                                style={{width: "100%", height: "100%"}}>
+                        <View style={{backgroundColor: "#ff8c00", padding: 5, opacity: 0.9}}>
                             <View style={{flexDirection: "row"}}>
                                 <Text style={[styles.textCapitalize, styles.textMV]}>
                                     owner</Text>
@@ -1088,6 +1103,7 @@ const AddJewelry = ({ userid })=>{
 
                             </View>
                         </View>
+                        </ImageBackground>
                     }
                 </Formik>
             </View>
@@ -1181,7 +1197,10 @@ const Posted = ({ navigation })=>{
                     </TouchableWithoutFeedback>
                 </Modal>
                 :
-                <View style={{padding: 5, backgroundColor: "#ff8c00", height: "100%"}}>
+                <ImageBackground source={IMAGES.assmer_logo}
+                    style={{width: "100%", height: "100%"}}>
+                <View style={{padding: 5, backgroundColor: "#ff8c00", 
+                    opacity: 0.9, height: "100%"}}>
                     <View>
                         <Text style={{marginVertical: 10, fontSize: 15, textAlign: "center"}}>
                             Your posted properties will be shown here.    If there were any!
@@ -1221,6 +1240,7 @@ const Posted = ({ navigation })=>{
                             style={{width: 20, height: 20, alignSelf: "center"}} />
                     </TouchableOpacity>
                 </View>
+                </ImageBackground>
     )
 }
 

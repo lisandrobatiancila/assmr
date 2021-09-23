@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { View, Text, Image, AsyncStorage, FlatList, StyleSheet, 
-    TouchableOpacity, Modal, Button, Alert, ScrollView, TextInput, TouchableWithoutFeedback } from 'react-native'
+    TouchableOpacity, Modal, Button, Alert, ScrollView, TextInput, 
+    TouchableWithoutFeedback, ImageBackground } from 'react-native'
 import { Badge } from 'react-native-elements'
 import { Formik } from 'formik'
 import * as yup from 'yup'
@@ -135,6 +136,8 @@ const Jewelries = (props)=>{
                 keyExtractor={(item)=> item.jewelryid}
                 renderItem={({item})=>
                 (
+                    <ImageBackground source={IMAGES.assmer_logo}
+                        style={{width: "100%", height: "100%"}}>
                     <View style={[styles.card, {backgroundColor: "#ff8c00", opacity: 0.9}]}>
                         {/* <Text>{JSON.stringify(item)}</Text> */}
                         <View style={styles.property_img}>
@@ -166,6 +169,7 @@ const Jewelries = (props)=>{
                                 fontSize: 16, color: "#fff"}}>view property</Text>
                         </TouchableOpacity>
                     </View>
+                    </ImageBackground>
                 )
                 } />
                 {
@@ -177,8 +181,8 @@ const Jewelries = (props)=>{
                                         inactiveDotColor="#000" />
                                 </View>
                                 <Text style={{backgroundColor: "#66cdaa", padding: 5, textTransform: "capitalize"}}>status: {certainJewelry.propertystatus}</Text>
-                                <ScrollView >
-                                <View >
+                                <ScrollView>
+                                <View style={{padding: 5}}>
                                     <Text style={styles.textModal}>property type : {certainJewelry.propertytype}
                                     </Text>
                                     <Text style={styles.textModal}>jewelry name : {certainJewelry.jewelryname}</Text>
@@ -205,6 +209,9 @@ const Jewelries = (props)=>{
                     (assumerModal &&
                         <Modal visible={assumerModal} animationType="slide">
                             <View>
+                                <ImageBackground source={IMAGES.assmer_logo}
+                                    style={{width: "100%", height: "100%",
+                                       opacity: 0.9 }}>
                                 <TouchableWithoutFeedback>
                                     <ScrollView>
                                         <View style={[styles.card, {padding: 5, marginVertical: 3}]}>
@@ -324,6 +331,7 @@ const Jewelries = (props)=>{
                                         </Formik>
                                     </ScrollView>
                                 </TouchableWithoutFeedback>
+                                </ImageBackground>
                             </View>
                         </Modal>
                     )
@@ -368,7 +376,7 @@ const styles = StyleSheet.create({
     },
     textModal: {
         textTransform: "capitalize",
-        marginVertical: 5
+        marginVertical: 5,
     },
     buttonAOP: {
         color: "#fff",
@@ -383,11 +391,12 @@ const styles = StyleSheet.create({
     textAssume: {
         textTransform: "capitalize",
         fontWeight: "bold",
-        marginVertical: 5
+        marginVertical: 5,
     },
     textinputAssume: {
-        backgroundColor: "#dcdcdc",
-        borderBottomWidth: 1
+        backgroundColor: "#fff",
+        borderBottomWidth: 1,
+        borderRadius: 3,
     },
     textError: {
         marginHorizontal: 20,

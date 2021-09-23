@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { View, Text, Image, AsyncStorage, FlatList, StyleSheet, TextInput,
-    TouchableOpacity, Modal, Button, ScrollView, Alert, TouchableWithoutFeedback } from 'react-native'
+    TouchableOpacity, Modal, Button, ScrollView, Alert, TouchableWithoutFeedback,
+    ImageBackground } from 'react-native'
 import { SliderBox } from 'react-native-image-slider-box'
 import { Badge } from 'react-native-elements'
 import axios from 'axios'
@@ -131,6 +132,8 @@ const House = ()=>{
                renderItem={({item})=>
                 <View key={item.propertyid} style={{flex: 1, flexDirection: "column",
                     }}>
+                    <ImageBackground source={IMAGES.assmer_logo}
+                            style={{width: "100%", height: "100%"}}>
                     <View style={[styles.card, {backgroundColor: "#ff8c00", opacity: 0.9}]}>
                         <View style={styles.cardHead}>
                             <Image source={{uri: `http://${ports[0]}:${ports[1]}${item.housefrontimage}`}}
@@ -161,6 +164,7 @@ const House = ()=>{
                             </TouchableOpacity>
                         </View>
                     </View>
+                    </ImageBackground>
                 </View>
                 } />
                 {
@@ -201,6 +205,8 @@ const House = ()=>{
                 {
                     (assumerModal && 
                         <Modal visible={assumerModal} animationType="slide">
+                            <ImageBackground source={IMAGES.assmer_logo}
+                                style={{width: "100%", height: "100%", opacity: 0.9}}>
                             <View>
                                 <TouchableWithoutFeedback>
                                     <ScrollView>
@@ -319,6 +325,7 @@ const House = ()=>{
                                     </ScrollView>
                                 </TouchableWithoutFeedback>
                             </View>
+                            </ImageBackground>
                         </Modal>
                     )
                 }
@@ -369,8 +376,9 @@ const styles = StyleSheet.create({
         marginVertical: 3
     },
     textinputAssume: {
-        backgroundColor: "#dcdcdc",
-        borderBottomWidth: 1
+        backgroundColor: "#fff",
+        borderBottomWidth: 1,
+        borderRadius: 3,
     },
     textError: {
         marginHorizontal: 20,
