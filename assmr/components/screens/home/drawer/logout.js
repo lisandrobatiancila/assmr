@@ -13,6 +13,7 @@ const LogOut = (props)=>{
             'are you sure',
             [
                 {text: 'cancel', onPress: ()=> {
+                    clearTimeout(toRef.current)
                     setIsLoading(true)
                     props.props.navigation.navigate("Posted Properties")
                 }},
@@ -29,7 +30,10 @@ const LogOut = (props)=>{
             setIsLoading(false)
         }, 3000)
         toRef.current = TO
-        return ()=> setIsLoading(toRef.current)
+        return ()=> {
+            clearTimeout(toRef.current)
+            setIsLoading(toRef.current)
+        }
     }, [])
     return(
         <View style={styles.container}>
