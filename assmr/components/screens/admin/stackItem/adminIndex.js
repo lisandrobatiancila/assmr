@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image,
+    ImageBackground } from 'react-native'
 import { Context } from '../../../../hooks/context'
 import { IMAGES } from '../../../../assets/assets'
 
@@ -7,6 +8,8 @@ export const AdminIndex = (props)=>{
     const userCredentials = React.useContext(Context)
     
     return(
+        <ImageBackground source={IMAGES.assmer_logo} 
+            style={{width: "100%", height: "100%", opacity: 0.9}}>
         <View style={[styles.container, {flex: 1, flexDirection: "column",
             justifyContent: "space-around"}]}>
             <View>
@@ -42,6 +45,7 @@ export const AdminIndex = (props)=>{
                 </View>
             </TouchableOpacity>
         </View>
+        </ImageBackground>
     )
 }
 

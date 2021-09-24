@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, Text, Image, StyleSheet, AsyncStorage, 
+import { View, Text, Image, StyleSheet, AsyncStorage, ImageBackground, 
     FlatList, TouchableOpacity } from 'react-native'
 import axios from 'axios'
 import { IMAGES } from '../../../../assets/assets'
@@ -30,6 +30,8 @@ const AdminFeedBack = ()=>{
             })
     }, [])
     return(
+        <ImageBackground source={IMAGES.assmer_logo} 
+            style={{width: "100%", height: "100%", opacity: 0.9}}>
         <View>
             <View>
                 <FlatList data={ userFeedBacks }
@@ -40,8 +42,8 @@ const AdminFeedBack = ()=>{
                                     <View key={item.feedbackid} style={{padding: 3}}>
                                         <View style={[styles.card, {padding: 10}]}>
                                             <View style={{flexDirection: "row", marginVertical: 3}}>
-                                                <Image source={{uri: `http://${ports[0]}:${ports[1]}${item.user_image}`}} resizeMode="contain"
-                                                    style={{width: 50, height: 50}} /> 
+                                                <Image source={{uri: `http://${ports[0]}:${ports[1]}${item.user_image}`}} 
+                                                    style={{width: 60, height: 60, borderRadius: 50}} /> 
                                                     <View style={{flexDirection: "column", marginHorizontal: 10}}>
                                                         <Text style={{fontSize: 18, fontWeight: "bold"}}>{item.user_lastname}, {item.user_firstname}</Text>
                                                         <Text style={{fontSize: 16}}>{item.feedback_comment}</Text>
@@ -70,6 +72,7 @@ const AdminFeedBack = ()=>{
                     } />
             </View>
         </View>
+        </ImageBackground>
     )
 }
 

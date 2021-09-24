@@ -11,6 +11,7 @@ const NotificationDetails = (props)=>{
     const userCredentials = React.useContext(Context)
     const notificationDetails = props.route.params
     const [assumerDetails, setAssumerDetails] = React.useState([])
+    const [ports, setPorts] = React.useState([])
     const [cancelAssumpChange, setCancelAssumpChange] = React.useState(false)
     //[cancelAssumpChange, setCancelAssumpChange] was used to trigger re-render
     const retrieveAsyncStorage = async()=>{
@@ -22,6 +23,7 @@ const NotificationDetails = (props)=>{
     React.useEffect(()=>{
         retrieveAsyncStorage()
             .then((PORTS)=>{
+                setPorts(PORTS)
                 axios.post(`http://${PORTS[0]}:1010/notifications/get-assumer-info`,
                 [
                     {assumerID: notificationDetails.item.assumer_id},
@@ -51,7 +53,8 @@ const NotificationDetails = (props)=>{
                            {/* <Text>{JSON.stringify(assumerDetails)}</Text> */}
                         <View style={styles.imgCirlceView}>
                                 {/* notificationDetails.item.user_image the image */}
-                                <Image source={IMAGES.user} style={{width: 100, height: 100}} />
+                                <Image source={{uri: `http://${ports[0]}:${ports[1]}${notificationDetails.item.user_image}`}} 
+                                    style={{width: 100, height: 100, borderRadius: 50}} />
                             </View>
                             <Text style={{textAlign: "center"}}>{item.assumerEmail}</Text>
                             <View style={styles.divider}></View>

@@ -1,7 +1,9 @@
 import * as React from 'react'
-import { View, Text, StyleSheet, AsyncStorage, FlatList, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, AsyncStorage, FlatList, TouchableOpacity,
+    ImageBackground } from 'react-native'
 import axios from 'axios'
 import { Badge } from 'react-native-elements'
+import { IMAGES } from '../../../../assets/assets'
 
 const AdminHistories = ()=>{
     const [adminHistories, setAdminHistories] = React.useState([])
@@ -36,6 +38,8 @@ const AdminHistories = ()=>{
             })
     }, [])
     return(
+        <ImageBackground source={IMAGES.assmer_logo} 
+            style={{width: "100%", height: "100%", opacity: 0.9}}>
         <View style={styles.outContainer}>
             <View style={styles.inContainer}>
                 <FlatList data={adminHistories}
@@ -70,6 +74,7 @@ const AdminHistories = ()=>{
                 </Text>
             </View>
         </View>
+        </ImageBackground>
     )
 }
 
@@ -86,7 +91,8 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {width: 0, height: 3},
         elevation: 3,
-        marginVertical: 3
+        marginVertical: 3,
+        backgroundColor: "#fff"
     },
     footerItem: {
         flexDirection: "row",

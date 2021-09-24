@@ -71,8 +71,8 @@ const HomeIndex = (props)=>{
            );
      }
      React.useEffect(()=>{
-        // setChannelId()
-        // infiniteNotifications()
+        setChannelId()
+        infiniteNotifications()
         retrieveAsyncStorage()
             .then((PORTS)=>{
                 axios.post(`http://${PORTS[0]}:1010/notifications/get-all-posted-properties`,

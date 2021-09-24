@@ -5,7 +5,7 @@ import { IMAGES } from '../../../assets/assets'
 const Loading = ({ title, color })=>{
     return(
         <ImageBackground source={IMAGES.assmer_logo}
-            style={{width: "100%", height: "100%"}}>
+            style={{width: "100%", height: "100%", opacity: 0.9}}>
         <View style={styles.container}>
             <ActivityIndicator size="large" color={color} />
             <Text style={styles.loadingText}>{title}</Text>

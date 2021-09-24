@@ -1,7 +1,9 @@
 import * as React from 'react'
-import { View, Text, StyleSheet, AsyncStorage, FlatList, Image } from 'react-native'
+import { View, Text, StyleSheet, AsyncStorage, FlatList, Image, 
+    ImageBackground } from 'react-native'
 import axios from 'axios'
 import { Badge } from 'react-native-elements'
+import { IMAGES } from '../../../../assets/assets'
 
 const AdminSubscriptions = ()=>{
     const [adminSubscriptions, setAdminSubscriptions] = React.useState([])
@@ -30,6 +32,8 @@ const AdminSubscriptions = ()=>{
             })
     }, [])
     return(
+        <ImageBackground source={IMAGES.assmer_logo} 
+            style={{width: "100%", height: "100%", opacity: 0.9}}>
         <View style={styles.container}>
             <View style={styles.card}><Text style={[styles.textCapitalize, 
                     styles.textCenter, 
@@ -63,6 +67,7 @@ const AdminSubscriptions = ()=>{
                    } />
             </View>
         </View>
+        </ImageBackground>
     )
 }
 
@@ -78,6 +83,7 @@ const styles = StyleSheet.create({
         shadowOffset: {width: 0, height: 3},
         elevation: 3,
         marginVertical: 3,
+        backgroundColor: "#fff"
     },
     textCapitalize: {
         textTransform: "capitalize"

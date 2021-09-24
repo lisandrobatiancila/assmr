@@ -1,11 +1,15 @@
 import * as React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity,
+    ImageBackground } from 'react-native'
+import { IMAGES } from '../../../../assets/assets'
 
 const AdminReports = (props)=>{
     return(
+        <ImageBackground source={IMAGES.assmer_logo} 
+            style={{width: "100%", height: "100%", opacity: 0.9}}>
         <View style={[styles.container,  {flex: 1, flexDirection: "column",
             justifyContent: "center"}]}>
-            <TouchableOpacity style={{}}
+            <TouchableOpacity
                 onPress = {()=> props.navigation.navigate("Admin Histories")}>
                 <View style={styles.card}>
                     <Text style={[styles.textCapitalize, styles.textFont, 
@@ -20,6 +24,7 @@ const AdminReports = (props)=>{
                 </View>
             </TouchableOpacity>
         </View>
+        </ImageBackground>
     )
 }
 
@@ -33,7 +38,8 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {width: 0, height: 3},
         elevation: 3,
-        marginVertical: 6
+        marginVertical: 6,
+        backgroundColor: "#fff"
     },
     textCenter: {
         textAlign: "center",

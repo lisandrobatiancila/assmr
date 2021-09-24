@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 // views
 import Posted from "../drawer/posted";
 import PostedProperties from '../drawer/posted/postedProperties';
+import TemporaryForm from '../drawer/posted/temporaryForm';
 import ShowAssumers from '../drawer/posted/showAssumers';
 import EditProperties from '../drawer/posted/editproperties';
 import TemporaryNotifications from '../drawer/posted/temporaryNotifications'
@@ -47,6 +48,7 @@ export const PostedStackScreen = (props)=>{
             <PostedStack.Screen name="Edit Properties" component = { EditProperties } />
             <PostedStack.Screen name="Assumers" component={ ShowAssumers } />
             <PostedStack.Screen name="Temporary" component={ TemporaryNotifications } />
+            <PostedStack.Screen name="Assumption Form" component={ TemporaryForm } />
         </PostedStack.Navigator>
     )
 }

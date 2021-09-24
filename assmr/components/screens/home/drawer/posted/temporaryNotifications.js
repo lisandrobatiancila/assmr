@@ -1,12 +1,14 @@
 import * as React from 'react'
 import { View, Text, AsyncStorage, Button, StyleSheet, FlatList, 
-    ScrollView } from 'react-native'
+    Alert} from 'react-native'
 import { SliderBox } from 'react-native-image-slider-box'
 import axios from 'axios'
 import { Badge } from 'react-native-elements'
 import Loading from '../../../loading/loading'
+import { Context } from '../../../../../hooks/context'
 
 const TemporaryNotifications = (props)=>{
+    const userCredentials = React.useContext(Context)
     const payLoads = props.route.params.payLoads.notifyProp
     const [isLoading, setIsLoading] = React.useState(true)
     const [refreshed, setRefreshed] = React.useState(false)//debug purposes
@@ -15,7 +17,7 @@ const TemporaryNotifications = (props)=>{
     const [lotImages, setLotImages] = React.useState(null)
     const [houseImages, setHouseImages] = React.useState(null)
     const [houseandlotImages, setHouseandLotImages] = React.useState(null)
-    
+    const [assumerInfo, setAssumerInfo] = React.useState([])
     const [notificationLists, setNotificationLists] = React.useState([])
 
     const retrieveAsyncStorage = async()=>{
@@ -23,6 +25,24 @@ const TemporaryNotifications = (props)=>{
         const imagePort = await AsyncStorage.getItem("imagePort")
 
         return [serverIp, imagePort]
+    }
+    const assumerData = ()=>{
+        retrieveAsyncStorage()
+            .then(async(PORTS)=>{
+                const assumerInfo = await axios.post(`http://${PORTS[0]}:1010/assumedproperty/assume`,
+                    userCredentials
+                )
+                .then((response)=>{
+                    return response.data.response
+                })
+                .catch((err)=>{
+                    console.log('rA: '+err)
+                })
+                setAssumerInfo(assumerInfo)
+            })
+            .catch((err)=>{
+                console.log('aD: '+err)
+            })
     }
     React.useEffect(()=>{
         setTimeout(()=>{
@@ -91,6 +111,7 @@ const TemporaryNotifications = (props)=>{
                 .catch((err)=>{
                     console.log(`aP: ${err.message}`)
                 })
+                assumerData()
             })
             .catch((err)=>{
                 console.log(`rAS: ${err.message}`)
@@ -101,7 +122,7 @@ const TemporaryNotifications = (props)=>{
     return(
         <View>
             {(isLoading)?
-            <View style={{marginTop: 20}}>
+            <View>
                 <Loading title="Please wait..." color="#ff8c00" />
             </View>
             :
@@ -196,7 +217,46 @@ const TemporaryNotifications = (props)=>{
                                     </View>
                                 </View>
                             )}
-                            <Button title="assume" color="#ff8c00" />
+                            <Button title="assume" color="#ff8c00" 
+                                onPress={()=>{
+                                    retrieveAsyncStorage()
+                                        .then((PORTS)=>{
+                                            userCredentials.credentials.propertyid = item.property_id
+                                            axios.post(`http://${PORTS[0]}:1010/assumedproperty/check-assumer-validity`,
+                                                userCredentials.credentials
+                                            )
+                                            .then((response)=>{
+                                                const results = response.data.response
+                                                item.userid = item.user_id
+                                                item.propertyid = item.property_id
+                                                console.log(results)
+                                                if (results === "ready-to-assume"){
+                                                    const params = {
+                                                        assumerInfo: assumerInfo,
+                                                        itemInfo: item,
+                                                    }
+                                                    props.navigation.navigate("Assumption Form", {params}
+                                                    )
+                                                }
+                                                else if (results === "user-assumed-already")
+                                                    Alert.alert(
+                                                        'Message',
+                                                        'You already assumed this property!'
+                                                    )
+                                                else if (results === "assumer-is-owner")
+                                                    Alert.alert(
+                                                        'Message',
+                                                        `You can't assume your own property!`
+                                                    )
+                                            })
+                                            .catch((err)=>{
+                                                console.log(`aP: ${err.message}`)
+                                            })
+                                        })
+                                        .catch((err)=>{
+                                            console.log(`rAS: ${err.message}`)
+                                        })
+                                }} />
                                 <View style={{marginVertical: 2}}></View>
                                 <Button title="send message" onPress={()=>{
                                     const params = {

@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { View, Text, Image, AsyncStorage, StyleSheet, FlatList, TouchableOpacity, Button } from 'react-native'
+import { View, Text, Image, AsyncStorage, StyleSheet, FlatList, 
+    TouchableOpacity, Button, ImageBackground } from 'react-native'
 import { Context } from '../../../../hooks/context'
 import { IMAGES } from '../../../../assets/assets'
 import axios from 'axios'
@@ -7,16 +8,19 @@ import axios from 'axios'
 const Messages = ({ navigation })=>{
     const userCredentials = React.useContext(Context)
     const [userMessages, setUserMessages] = React.useState([])
+    const [ports, setPorts] = React.useState([])
     const [trigger, setTrigger] = React.useState(false)
     const retrieveAsyncStorage = async()=>{
         const serverIp = await AsyncStorage.getItem("serverIp")
+        const imagePort = await AsyncStorage.getItem("imagePort")
 
-        return serverIp
+        return [serverIp, imagePort]
     }
     React.useEffect(()=>{
         retrieveAsyncStorage()
-            .then((serverIp)=>{
-                axios.post(`http://${serverIp}:1010/messages/active_user_messages`,
+            .then((PORTS)=>{
+                setPorts(PORTS)
+                axios.post(`http://${PORTS[0]}:1010/messages/active_user_messages`,
                         userCredentials
                     )
                     .then((response)=>{
@@ -32,6 +36,8 @@ const Messages = ({ navigation })=>{
     }, [trigger])
     return(
         <View style={{backgroundColor: "#fff", height: "100%"}}>
+            <ImageBackground source={IMAGES.assmer_logo} 
+                style={{width: "100%", height: "100%", opacity: 0.9}}>
             <View style={{padding: 5, height: "85%"}}>
                 <FlatList data={userMessages}
                     keyExtractor={(item)=> item.message_id}
@@ -44,8 +50,10 @@ const Messages = ({ navigation })=>{
                         }}>
                         {/* <Text>{JSON.stringify(item)}</Text> */}
                         <View style={[{ flexDirection: "row", width: "100%"}, styles.card]}>
-                            <View style={styles.imgCircle}>
-                                <Image source={IMAGES.user} resizeMode="contain" style={{width: 60, height: 60}} />
+                            <View style={[styles.imgCircle, {width: 60, height: 60, alignItems: "center",
+                                justifyContent: "center"}]}>
+                                <Image source={{uri: `http://${ports[0]}:${ports[1]}${item.user_image}`}} 
+                                    style={{width: 60, height: 60, borderRadius: 50}} />
                             </View>
                             <View style={{marginVertical: 3 , width: "100%", marginHorizontal: 5}}>
                                 <View style={{flexDirection: "column", padding: 5}}>
@@ -79,6 +87,7 @@ const Messages = ({ navigation })=>{
                         resizeMode="contain" />
                 </TouchableOpacity>
             </View>
+            </ImageBackground>
         </View>
     )
 }

@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { View, Text, StyleSheet, AsyncStorage, FlatList, 
-    Image, 
+    Image, ImageBackground, 
     TouchableOpacity} from 'react-native'
 import axios from 'axios'
 import { Badge } from 'react-native-elements'
+import { IMAGES } from '../../../../assets/assets'
 
 const AdminTransactionActivities = ()=>{
     const [ports, setPorts] = React.useState([])
@@ -32,6 +33,8 @@ const AdminTransactionActivities = ()=>{
             })
     }, [])
     return(
+        <ImageBackground source={IMAGES.assmer_logo} 
+            style={{width: "100%", height: "100%", opacity: 0.9}}>
         <View style={styles.container}>
             <FlatList data={adminTransactions}
                 keyExtractor={(item)=> item.assumer_id}
@@ -51,9 +54,10 @@ const AdminTransactionActivities = ()=>{
                         {/* end of propertyOwner */}
                         <View style={[styles.viewDivider, styles.viewMV]}></View>
                         <View style={styles.viewMV}>
-                            <View style={styles.userImageContainer}>
+                            <View style={styles.userImageContainer} style={{justifyContent: "center",
+                                alignSelf: "center"}}>
                                 <Image source={{uri: `http://${ports[0]}:${ports[1]}${item.user_image}`}} 
-                                    style={{width: 80, height: 80, alignSelf: "center", borderRadius: 50}} resizeMode="contain" />
+                                    style={{width: 80, height: 80, borderRadius: 50}} />
                             </View>
                             <Text style={[styles.textFont, styles.textName,
                                 styles.textWeight]}>{item.assumer_lastname}, {item.assumer_firstname} {item.assumer_middlename[0]}.</Text>
@@ -85,6 +89,7 @@ const AdminTransactionActivities = ()=>{
                 }
             />
         </View>
+        </ImageBackground>
     )
 }
 
@@ -99,6 +104,7 @@ const styles = StyleSheet.create({
         shadowOffset: {width: 0, height: 3},
         elevation: 3,
         marginVertical: 3,
+        backgroundColor: "#fff"
     },
     containerRow: {
         flexDirection: "row"

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, Text, Image, ScrollView, TouchableOpacity, 
+import { View, Text, Image, ScrollView, TouchableOpacity, ImageBackground, 
     StyleSheet, TextInput, AsyncStorage, FlatList, Alert, Modal, TouchableWithoutFeedback, Keyboard, Button } from 'react-native'
 import { Formik } from 'formik'
 import * as yup from 'yup'
@@ -198,10 +198,12 @@ const UpdateAccount = ()=>{
     }, [reRender])
     return(
         (isLoading)?
-            <View style={{marginTop: 30}}>
+            <View>
                 <Loading title="Please wait..." color="#ff8c00" />
             </View>
         :
+        <ImageBackground source={IMAGES.assmer_logo} 
+            style={{width: "100%", height: "100%", opacity: 0.9}}>
             <View style={{backgroundColor: "#ff8c00"}}>
                 <FlatList
                 data={userInformation}
@@ -443,6 +445,8 @@ const UpdateAccount = ()=>{
                 {
                     (userSpecifyModal && 
                         <Modal style={{padding: 5}}>
+                             <ImageBackground source={IMAGES.assmer_logo} 
+                                style={{width: "100%", height: "100%", opacity: 0.9}}>
                             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                                 <View style={styles.card}>
                                     <View style={styles.card}>
@@ -494,10 +498,12 @@ const UpdateAccount = ()=>{
                                     </View>
                                 </View>
                             </TouchableWithoutFeedback>
+                            </ImageBackground>
                         </Modal>
                     )
                 }      
             </View>
+        </ImageBackground>
     )
 }
 

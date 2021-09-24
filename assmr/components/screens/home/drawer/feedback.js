@@ -15,6 +15,7 @@ const FeedBack = (props)=>{
     const [clickedStar, setClickStar] = React.useState(0)
     const [closeFeedBackForm, setCloseFeedBackForm] = React.useState(false)
     const [postedFeedBack, setPostedFeedBack] = React.useState(null)
+    const [ports, setPorts] = React.useState([])
     const schema = yup.object().shape({
         comment: yup.string().min(5, "Too short!").required("Required")
     })
@@ -32,6 +33,7 @@ const FeedBack = (props)=>{
     React.useEffect(()=>{
         retrieveAsyncStorage()
             .then((PORTS)=>{
+                setPorts(PORTS)
                 axios.get(`http://${PORTS[0]}:1010/feedbacks/get-users-feedbacks`)
                     .then((response)=>{
                         setPostedFeedBack(response.data.response)
@@ -199,8 +201,9 @@ const FeedBack = (props)=>{
                                     <View key={item.feedbackid} style={{padding: 3}}>
                                         <View style={[styles.card, {padding: 10}]}>
                                             <View style={{flexDirection: "row", marginVertical: 3}}>
-                                                <Image source={IMAGES.user} resizeMode="contain"
-                                                    style={{width: 50, height: 50}} /> 
+                                                {/* <Text>{JSON.stringify(item)}</Text> */}
+                                                <Image source={{uri: `http://${ports[0]}:${ports[1]}${item.userimage}`}} 
+                                                    style={{width: 60, height: 60, borderRadius: 50}} /> 
                                                     <View style={{flexDirection: "column", marginHorizontal: 10}}>
                                                         <Text style={{fontSize: 18, fontWeight: "bold"}}>{item.userlastname}, {item.userfirstname}</Text>
                                                         <Text style={{fontSize: 16}}>{item.feedbackcomment}</Text>

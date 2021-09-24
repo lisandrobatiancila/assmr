@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { View, Text, Image, AsyncStorage, StyleSheet, 
-    FlatList, TouchableOpacity } from 'react-native'
+    FlatList, TouchableOpacity, ImageBackground } from 'react-native'
 import axios from 'axios'
 import { Notification } from '../../../../notifications/notificationManager'
 import { Context } from '../../../../hooks/context'
@@ -9,6 +9,7 @@ import { IMAGES } from '../../../../assets/assets'
 const Notifications = ({ navigation })=>{
     const userCredentials = React.useContext(Context)
     const [notificationsList, setNotificationsList] = React.useState([])
+    const [ports, setPorts] = React.useState([])
     const [isRendered, setIsRendered] = React.useState(false)
 
     const retrieveAsyncStorage = async()=>{
@@ -20,6 +21,7 @@ const Notifications = ({ navigation })=>{
     React.useEffect(()=>{
         retrieveAsyncStorage()
             .then((PORTS)=>{
+                setPorts(PORTS)
                 axios.post(`http://${PORTS[0]}:1010/notifications/get-user-notifications`,
                     userCredentials.credentials
                 )
@@ -37,6 +39,8 @@ const Notifications = ({ navigation })=>{
     }, [])
     return(
             (Object.keys(notificationsList).length > 0)?
+            <ImageBackground source={IMAGES.assmer_logo} 
+                style={{width: "100%", height: "100%", opacity: 0.9}}>
             <View style={styles.container}>
             {/* {(isRendered)?<Text>rendered</Text>:<Text>not rendered</Text>} */}
             <FlatList data={notificationsList}
@@ -45,10 +49,12 @@ const Notifications = ({ navigation })=>{
                 <TouchableOpacity key={item.notification_id}
                     onPress={()=> navigation.navigate("Notification Details", {item, setIsRendered})}>
                     <View style={styles.card}>
+                        {/* <Text>{JSON.stringify(item)}</Text> */}
                         <View>
                             <View style={styles.flexView}>
-                                <Image source={IMAGES.user} style={{width: 50, height: 50}} />
-                                <View style={{flexDirection: "column"}}>
+                                <Image source={{uri: `http://${ports[0]}:${ports[1]}${item.user_image}`}} 
+                                    style={{width: 60, height: 60, borderRadius: 50}} />
+                                <View style={{flexDirection: "column", marginHorizontal: 10}}>
                                     <View style={styles.flexView}>
                                         <Text style={styles.textName}>{item.user_firstname}</Text>
                                         <Text style={styles.textName}>{item.user_middlename[0]}.</Text>
@@ -63,6 +69,7 @@ const Notifications = ({ navigation })=>{
                 </TouchableOpacity>
             } />
             </View>
+            </ImageBackground>
             :
             <View style={styles.containerErr}>
                 <View style={styles.card}>
@@ -75,7 +82,6 @@ const Notifications = ({ navigation })=>{
 const styles = StyleSheet.create({
     container: {
         padding: 5,
-        backgroundColor: "#fff",
         height: "100%",
     },
     containerErr: {

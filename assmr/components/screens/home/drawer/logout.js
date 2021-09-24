@@ -37,8 +37,8 @@ const LogOut = (props)=>{
     }, [])
     return(
         <View style={styles.container}>
-            {(isLoading && <Loading title="Please wait..." color="#000" />)}
-            <View>
+            {(isLoading && <Loading title="Please wait..." color="#ff8c00" />)}
+            <View style={{padding: 10, position: "absolute", top: "80%"}}>
                 <Text style={styles.topText}>you will be redirected after a seconds...</Text>
                 <View style={{alignSelf: "center"}}>
                     {/* <Text style={styles.bottomText}>please wait...</Text> */}
@@ -46,8 +46,8 @@ const LogOut = (props)=>{
                     <Text>{email.credentials.useremail}</Text>
                     {/* <Text>{JSON.stringify(email)}</Text> */}
                 </View>
+                <Button title="logout" onPress={()=> logOut()} />
             </View>
-            <Button title="logout" onPress={()=> logOut()} />
         </View>
     )
 }
@@ -56,9 +56,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        padding: 10,
         alignSelf: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        width: "100%",
     },
     topText: {
         fontSize: 16,

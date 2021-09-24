@@ -10,7 +10,9 @@ import { IMAGES } from '../../../../../assets/assets'
 const OpenMessage = (props)=>{
     const userCredentials = React.useContext(Context)
     const [userMessages, setUserMessages] = React.useState([])
+    const [activeUserIMAGE, setActiveUserIMAGE] = React.useState('')
     const [reRender, setreRender] = React.useState(false)//trigger re-Render
+    const [ports, setPorts] = React.useState([])
     const messageScheme = yup.object().shape({
         message: yup.string().min(0, "Too short").required("Required")
     })
@@ -24,11 +26,13 @@ const OpenMessage = (props)=>{
     React.useEffect(()=>{
         retrieveAsyncStorage()
             .then((PORTS)=>{
+                setPorts(PORTS)
                 axios.post(`http://${PORTS[0]}:1010/messages/open-user-chatbox`,
                     [userCredentials.credentials, props.route.params]
                 )
                 .then((response)=>{
-                    setUserMessages(response.data.response)
+                    setUserMessages(response.data.messageInfo)
+                    setActiveUserIMAGE(response.data.activeuserIMG)
                 })
                 .catch((err)=>{
                     console.log(err)
@@ -41,6 +45,7 @@ const OpenMessage = (props)=>{
     return(
         <View style={{padding: 5, backgroundColor: "#fff", height: "100%"}}>
             <View style={{flexDirection: "column", height: heights}}>
+                {/* <Text>{JSON.stringify(userMessages[1])}</Text> */}
                 <FlatList 
                     data={userMessages}
                     keyExtractor={(item)=> item.messageid}
@@ -51,21 +56,21 @@ const OpenMessage = (props)=>{
                             <View style={{flexDirection: "row", marginVertical: 5}}>
                                 <Text style={[styles.textMessages, 
                                     styles.cardMSSG, {paddingLeft: 15}]}>
-                                        {item.messagetext}</Text>
-                                <Image source={IMAGES.user} style={{width: 60, 
-                                    height: 60, marginHorizontal: 5}} />
+                                        {item.messagetext} </Text>
+                                <Image source={{uri: `http://${ports[0]}:${ports[1]}${activeUserIMAGE}`}} style={{width: 60, 
+                                    height: 60, marginHorizontal: 5, borderRadius: 50}} />
                             </View>
                         </View>
                         :
                         
                         <View style={styles.userPullRight}>
                             <View style={{flex: 1, flexDirection: "row", marginVertical: 5}}>
-                                <Image source={IMAGES.user} style={{width: 60, 
-                                    height: 60, marginHorizontal: 5}} />
+                                <Image source={{uri: `http://${ports[0]}:${ports[1]}${props.route.params.userimage}`}} style={{width: 60, 
+                                    height: 60, marginHorizontal: 5, borderRadius: 50}} />
                                 <Text style={[styles.textMessages, 
                                     styles.cardMSSG, {paddingLeft: 15}]}>{item.messagetext}</Text>
                             </View>
-                        </View>
+                        </View> //un-active user image was store in props route
                     } />
                 <View style={{height: 20}}></View>
             </View>
@@ -153,7 +158,7 @@ const styles = StyleSheet.create({
     },
     textInputMSSG: {
         width: "90%",
-        backgroundColor: "#ccc",
+        backgroundColor: "#fff",
         borderRadius: 5,
         paddingLeft: 10
     }
