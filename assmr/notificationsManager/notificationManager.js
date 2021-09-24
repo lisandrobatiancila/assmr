@@ -63,9 +63,40 @@ export const LocalNotification = (navigationRef, navDestination, title, text, ne
       // console.log("NOTIFICATION:", notification);
       // props.navigation.navigate(navDestination)
       var index = navigationRef.current.getRootState().index
+      console.log(index)
       if (navDestination){
         switch(index){
           case 0:
+            navigationRef.current.navigate("Account", 
+              {
+              screen: "Posted Properties",
+              initial: false,
+                params: {
+                  screen: "Temporary",
+                  initial: false,
+                  params: {
+                    payLoads
+                  }
+                }
+              }
+            )
+          break;
+          case 1:
+            navigationRef.current.navigate("Account", 
+              {
+              screen: "Posted Properties",
+              initial: false,
+                params: {
+                  screen: "Temporary",
+                  initial: false,
+                  params: {
+                    payLoads
+                  }
+                }
+              }
+            )
+          break;
+          case 2:
             navigationRef.current.navigate("Account", 
               {
               screen: "Posted Properties",
