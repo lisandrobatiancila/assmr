@@ -63,7 +63,6 @@ export const LocalNotification = (navigationRef, navDestination, title, text, ne
       // console.log("NOTIFICATION:", notification);
       // props.navigation.navigate(navDestination)
       var index = navigationRef.current.getRootState().index
-      console.log(index)
       if (navDestination){
         switch(index){
           case 0:
